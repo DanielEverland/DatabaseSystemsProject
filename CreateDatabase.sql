@@ -9,9 +9,8 @@ use airport;
 # TimeZone
 DROP TABLE IF EXISTS TimeZone;
 CREATE TABLE TimeZone
-	( timeZoneID	VARCHAR(4),
-      timeOffset	DECIMAL(2,0),
-    PRIMARY KEY (timeZoneID)
+	(timeZoneID	VARCHAR(4) PRIMARY KEY,
+    timeOffset	DECIMAL(2,0)
     );
 
 # City
