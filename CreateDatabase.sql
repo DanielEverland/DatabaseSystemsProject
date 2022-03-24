@@ -8,7 +8,10 @@ use airport;
 # =======================================================
 # TimeZone
 DROP TABLE IF EXISTS TimeZone;
-# CREATE TABLE
+CREATE TABLE TimeZone
+	(timeZoneID	VARCHAR(4) PRIMARY KEY,
+    timeOffset	DECIMAL(2,0)
+    );
 
 # City
 DROP TABLE IF EXISTS City;
@@ -41,6 +44,13 @@ DROP TABLE IF EXISTS Passenger;
 # Crew
 DROP TABLE IF EXISTS Crew;
 # CREATE TABLE
+CREATE TABLE Crew 
+	(crewID INT PRIMARY KEY AUTO_INCREMENT,
+    firstName VARCHAR(50),
+    middleName VARCHAR(100),
+    lastName VARCHAR(50),
+    birthDate DATE,
+    crewRole VARCHAR(50));
 
 # CrewFlight
 DROP TABLE IF EXISTS CrewFlight;
