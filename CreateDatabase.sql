@@ -41,6 +41,13 @@ DROP TABLE IF EXISTS Passenger;
 # Crew
 DROP TABLE IF EXISTS Crew;
 # CREATE TABLE
+CREATE TABLE Crew 
+	(crewID INT PRIMARY KEY AUTO_INCREMENT,
+    firstName VARCHAR(50),
+    middleName VARCHAR(100),
+    lastName VARCHAR(50),
+    birthDate DATE,
+    crewRole VARCHAR(50));
 
 # CrewFlight
 DROP TABLE IF EXISTS CrewFlight;
