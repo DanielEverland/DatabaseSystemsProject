@@ -27,11 +27,17 @@ DROP TABLE IF EXISTS Gate;
 
 # Ticket
 DROP TABLE IF EXISTS Ticket;
-# CREATE TABLE
+CREATE TABLE Ticket
+	(flightID	INT PRIMARY KEY,
+    passengerID	INT PRIMARY KEY,
+    luggage		DECIMAL(2,2) NOT NULL,
+    price		DECIMAL(6,2) NOT NULL,
+    seatNo		INT NOT NULL,
+    meal		ENUM('Vegetarian', 'Vegan', 'Chicken', 'Beef', 'Pork')	
 
 # Ticket Price
 DROP TABLE IF EXISTS TicketPrice;
-# CREATE TABLE
+CREATE TABLE
 
 # Nationality
 DROP TABLE IF EXISTS Nationality;
