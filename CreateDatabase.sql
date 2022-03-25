@@ -133,7 +133,13 @@ CREATE TABLE License
 
 # Pilot
 DROP TABLE IF EXISTS Pilot;
-# CREATE TABLE
+CREATE TABLE Pilot
+	(pilotID	INT PRIMARY KEY AUTO_INCREMENT,
+    firstName VARCHAR(50) NOT NULL,
+    middleName VARCHAR(100),
+    lastName VARCHAR(50) NOT NULL,
+    birthDate DATE NOT NULL
+    );
 
 # Pilot Flight
 DROP TABLE IF EXISTS PilotFlight
