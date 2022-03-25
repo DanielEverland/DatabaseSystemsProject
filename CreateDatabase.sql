@@ -70,10 +70,6 @@ CREATE TABLE TicketPrice
     FOREIGN KEY(meal) REFERENCES Ticket(meal) ON DELETE CASCADE    
 	);
     
-# Nationality
-DROP TABLE IF EXISTS Nationality;
-# CREATE TABLE
-
 # Passenger
 DROP TABLE IF EXISTS Passenger;
 # CREATE TABLE
