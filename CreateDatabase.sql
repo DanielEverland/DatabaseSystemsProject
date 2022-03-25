@@ -123,7 +123,13 @@ CREATE TABLE AircraftInstance
 
 # License
 DROP TABLE IF EXISTS License;
-# CREATE TABLE
+CREATE TABLE License
+	(pilotID			INT PRIMARY KEY,
+    modelName			VARCHAR(50) PRIMARY KEY,
+    dateOfAcquisition 	DATE NOT NULL,
+    lastRenewal			DATE NOT NULL,
+    FOREIGN KEY(modelName) REFERENCES AircraftModel(modelName) ON DELETE CASCADE
+    );
 
 # Pilot
 DROP TABLE IF EXISTS Pilot;
