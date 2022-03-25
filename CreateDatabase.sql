@@ -59,6 +59,15 @@ DROP TABLE IF EXISTS CrewFlight;
 # Flight
 DROP TABLE IF EXISTS Flight;
 # CREATE TABLE
+CREATE TABLE Flight
+	(flightID INT PRIMARY KEY AUTO_INCREMENT,
+    arrivalDateTimeUTC DATETIME,
+    departureDateTimeUTC DATETIME,
+    aircraftReg VARCHAR(8),
+    arrivalGateID VARCHAR(5),
+    departureGateID VARCHAR(5),
+    arrivalGateAirport VARCHAR(5),
+    departureGateAirport VARCHAR(5));
 
 # Aircraft Model
 DROP TABLE IF EXISTS AircraftModel;
