@@ -114,7 +114,12 @@ CREATE TABLE AircraftModel
 
 # Aircraft Instance
 DROP TABLE IF EXISTS AircraftInstance;
-# CREATE TABLE
+CREATE TABLE AircraftInstance
+	(aircraftReg	VARCHAR(10) PRIMARY KEY,
+    productionYear	YEAR NOT NULL,
+    modelName		VARCHAR(50) NOT NULL,
+    FOREIGN KEY(modelName) REFERENCES AircraftModel(modelName) ON DELETE CASCADE
+    );
 
 # License
 DROP TABLE IF EXISTS License;
