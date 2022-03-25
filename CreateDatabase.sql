@@ -105,7 +105,12 @@ DROP TABLE IF EXISTS Flight;
 
 # Aircraft Model
 DROP TABLE IF EXISTS AircraftModel;
-# CREATE TABLE
+CREATE TABLE AircraftModel
+	(modelName			VARCHAR(50) PRIMARY KEY,
+    manufacturer		VARCHAR(50),
+    seats				INT NOT NULL,
+    licenseExpiration	TIME NOT NULL
+    );
 
 # Aircraft Instance
 DROP TABLE IF EXISTS AircraftInstance;
