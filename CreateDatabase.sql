@@ -14,9 +14,16 @@ CREATE TABLE TimeZone
     );
 
 # City
+# Longest city name Taumatawhakatangihangakoauauotamateapokaiwhenuakitanatahu
+# Country er vel bare 1 ord? The United Kingdom of Great Britain and Northern Ireland er officielt det længste navn for et land
 DROP TABLE IF EXISTS City;
-# CREATE TABLE
-
+CREATE TABLE City
+	(cityName	VARCHAR(85) PRIMARY KEY,
+    country		VARCHAR(20) NOT NULL,
+    timeZoneID	VARCHAR(4) NOT NULL,
+    FOREIGN KEY(timeZoneID) REFERENCES TimeZone(timeZoneID) ON DELETE CASCADE
+    );
+	
 # Airport
 DROP TABLE IF EXISTS Airport;
 # CREATE TABLE
@@ -35,8 +42,9 @@ CREATE TABLE Ticket
     seatNo		INT NOT NULL,
     meal		ENUM('Vegetarian', 'Vegan', 'Chicken', 'Beef', 'Pork'),
     FOREIGN KEY(flightID) REFERENCES Flight(flightID) ON DELETE CASCADE,
-    FOREIGN KEY(passengerID) REFERENCES Passenger(passengerID) ON DELETE CASCADE,
-
+    FOREIGN KEY(passengerID) REFERENCES Passenger(passengerID) ON DELETE CASCADE
+	);
+    
 # Ticket Price
 DROP TABLE IF EXISTS TicketPrice;
 CREATE TABLE TicketPrice
@@ -48,8 +56,9 @@ CREATE TABLE TicketPrice
     FOREIGN KEY(flightID) REFERENCES Ticket(flightID) ON DELETE CASCADE,
     FOREIGN KEY(luggage) REFERENCES Ticket(luggage) ON DELETE CASCADE,
     FOREIGN KEY(seatNo) REFERENCES Ticket(seatNo) ON DELETE CASCADE,
-    FOREIGN KEY(meal) REFERENCES Ticket(meal) ON DELETE CASCADE,    
-
+    FOREIGN KEY(meal) REFERENCES Ticket(meal) ON DELETE CASCADE    
+	);
+    
 # Nationality
 DROP TABLE IF EXISTS Nationality;
 # CREATE TABLE
