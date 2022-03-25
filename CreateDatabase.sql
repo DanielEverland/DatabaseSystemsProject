@@ -33,11 +33,22 @@ CREATE TABLE Ticket
     luggage		DECIMAL(2,2) NOT NULL,
     price		DECIMAL(6,2) NOT NULL,
     seatNo		INT NOT NULL,
-    meal		ENUM('Vegetarian', 'Vegan', 'Chicken', 'Beef', 'Pork')	
+    meal		ENUM('Vegetarian', 'Vegan', 'Chicken', 'Beef', 'Pork'),
+    FOREIGN KEY(flightID) REFERENCES Flight(flightID) ON DELETE CASCADE,
+    FOREIGN KEY(passengerID) REFERENCES Passenger(passengerID) ON DELETE CASCADE,
 
 # Ticket Price
 DROP TABLE IF EXISTS TicketPrice;
-CREATE TABLE
+CREATE TABLE TicketPrice
+	(flightID	INT PRIMARY KEY,
+    luggage 	DECIMAL(2,2) PRIMARY KEY,
+    seatNo 		INT PRIMARY KEY,
+    meal 		ENUM('Vegetarian', 'Vegan', 'Chicken', 'Beef', 'Pork') PRIMARY KEY,
+    price 		DECIMAL(6,2),
+    FOREIGN KEY(flightID) REFERENCES Ticket(flightID) ON DELETE CASCADE,
+    FOREIGN KEY(luggage) REFERENCES Ticket(luggage) ON DELETE CASCADE,
+    FOREIGN KEY(seatNo) REFERENCES Ticket(seatNo) ON DELETE CASCADE,
+    FOREIGN KEY(meal) REFERENCES Ticket(meal) ON DELETE CASCADE,    
 
 # Nationality
 DROP TABLE IF EXISTS Nationality;
