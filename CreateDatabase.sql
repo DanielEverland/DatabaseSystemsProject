@@ -25,8 +25,15 @@ CREATE TABLE City
     );
 	
 # Airport
+# Hvorfor har vi name attribute i airport? Er det CPH for københavns lufthavn? I så fald er det også en standard, den hedder IATA.
+# name er et keyword så jeg kalder det IATA :)
 DROP TABLE IF EXISTS Airport;
-# CREATE TABLE
+CREATE TABLE Airport
+	(ICAO		VARCHAR(4) PRIMARY KEY,
+    IATA		VARCHAR(3) NOT NULL,
+    cityName	VARCHAR(85)	NOT NULL,
+    FOREIGN KEY(cityName) REFERENCES City(cityName) ON DELETE CASCADE
+    );
 
 # Gate
 DROP TABLE IF EXISTS Gate;
