@@ -72,7 +72,13 @@ CREATE TABLE TicketPrice
     
 # Passenger
 DROP TABLE IF EXISTS Passenger;
-# CREATE TABLE
+CREATE TABLE Passenger
+	(passengerID	INT PRIMARY KEY AUTO_INCREMENT,
+    firstName VARCHAR(50) NOT NULL,
+    middleName VARCHAR(100),
+    lastName VARCHAR(50) NOT NULL,
+    birthDate DATE NOT NULL
+    );
 
 # Crew
 DROP TABLE IF EXISTS Crew;
