@@ -100,17 +100,7 @@ INSERT License (pilotID, modelName, dateOfAcquisition, lastRenewal) VALUES
 SELECT * FROM License;
 
 # Ticket
-INSERT Ticket (flightID, passengerID, luggage, seatNo, meal) VALUES
-(1, 1, 20.00, '666', 'Vegan'),
-(2, 2, 44.21, '420', 'Chicken'),
-(1, 3, 00.00, '69', 'None');
-SELECT * FROM Ticket;
-
-# Ticket Price
-INSERT TicketPrice (flightID, luggage, seatNo, meal, price) VALUES
-(1, 20.00, '666', 'Vegan', 6000.00),
-(2, 44.21, '420', 'Chicken', 243.30),
-(1, 00.00, '69', 'None', 00.00),
-(1, 42.00, '42', 'Chicken', 199.95),
-(1, 42.00, '43', 'None', 149.95);
-SELECT * FROM TicketPrice;
+INSERT Ticket (flightID, seatNo, passengerID, basePrice, luggage, meal) VALUES
+(1, '666', 1, 6000.00, 20.00, 'Vegan'),
+(2, '420', 2, 243.30, 44.21, 'Chicken'),
+(1, '69', 3, 199.95, 00.00, NULL);
