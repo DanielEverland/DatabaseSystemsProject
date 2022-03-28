@@ -39,9 +39,31 @@ BEGIN
 END//
 DELIMITER ;
 
-SELECT LocalArrivalTime(1);
 # Procedures
-# INSERT new flight = new tickets with empty passengers
+DELIMITER //
+CREATE PROCEDURE AddFlight (IN inAircraftReg VARCHAR(8), IN inArrivalDateTimeUTC DATETIME, IN inDepartureDateTimeUTC DATETIME,
+IN inArrivalGateID VARCHAR(5), IN inArrivalGateAirport VARCHAR(5), IN inDepartureGateID VARCHAR(5), IN inDepartureGateAirport VARCHAR(5))
+BEGIN
+	DECLARE newFlightID INT;
+    
+	INSERT Flight (arrivalDateTimeUTC, departureDateTimeUTC, aircraftReg, arrivalGateID, departureGateID, arrivalGateAirport, departureGateAirport)
+    VALUES (inArrivalDateTimeUTC, inDepartureDateTimeUTC, inAircraftReg, inArrivalGateID, inDepartureGateID, inArrivalGateAirport, inDepartureGateAirport);    
+    
+    SELECT flightID INTO newFlightID FROM Flight WHERE flightID = (SELECT MAX(flightID) FROM Flight);
+    
+    INSERT Ticket (flightID, seatNo, basePrice, luggage) VALUES
+    (newFlightID, 101, 500, 0),
+    (newFlightID, 102, 500, 0),
+    (newFlightID, 501, 250, 0),
+    (newFlightID, 601, 250, 0);
+END //
+DELIMITER ;
+
+# Test run:
+# SELECT * FROM Flight;
+# CALL AddFlight ('N405DX', '2038-01-19 06:14:07', '2038-01-18 06:14:07', '12', 'KJFK', '171', 'RJAA');
+# SELECT * FROM Flight;
+# SELECT * FROM Ticket;
 
 # Triggers
 
