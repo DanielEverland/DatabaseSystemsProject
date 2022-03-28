@@ -156,7 +156,7 @@ DROP TABLE IF EXISTS Ticket;
 CREATE TABLE Ticket
 	(flightID	INT,
     passengerID	INT,
-    luggage		DECIMAL(2,2) NOT NULL,
+    luggage		DECIMAL(4,2) NOT NULL,
     seatNo		VARCHAR(4) NOT NULL,
     meal		ENUM('Beef', 'Chicken', 'Pork', 'Vegan', 'Vegetarian'),
     PRIMARY KEY(flightID, passengerID),
@@ -173,11 +173,11 @@ CREATE INDEX ix_meal ON Ticket(meal);
 DROP TABLE IF EXISTS TicketPrice;
 CREATE TABLE TicketPrice
 	(flightID	INT,
-    luggage 	DECIMAL(2,2) NOT NULL,
+    luggage 	DECIMAL(4,2) NOT NULL,
     seatNo 		VARCHAR(4) NOT NULL,
     meal		ENUM('Beef', 'Chicken', 'Pork', 'Vegan', 'Vegetarian'),
-    price 		DECIMAL(6,2) NOT NULL,
-    PRIMARY KEY(flightID, luggage, seatNo, meal),
+    price 		DECIMAL(8,2) NOT NULL,
+    PRIMARY KEY(flightID, luggage, seatNo),
     FOREIGN KEY(flightID) REFERENCES Ticket(flightID) ON DELETE CASCADE,
     FOREIGN KEY(luggage) REFERENCES Ticket(luggage) ON DELETE CASCADE,
     FOREIGN KEY(seatNo) REFERENCES Ticket(seatNo) ON DELETE CASCADE,
