@@ -5,49 +5,88 @@ use airport;
 # ============== Populate Relation Schemas ==============
 # =======================================================
 # TimeZone
-# INSERT TimeZone VALUES;
+# Really not sure what a "timeZoneID" is supposed to look like. Feel free to rename.
+INSERT TimeZone (timeZoneID, timeOffset) VALUES
+('-04', -4), ('-03', -3), ('-02', -2), ('-01', -1),
+('UTC', 0),
+('+01', 1), ('+02', 2), ('+03', 3), ('+04', 4), ('+05', 5),
+('+06', 6), ('+07', 7), ('+08', 8), ('+09', 9);
 
 # City
-# INSERT City VALUES;
+INSERT City (cityName, country, timeZoneID) VALUES
+('Copenhagen', 'Denmark', '+01'),
+('London', 'England', 'UTC'),
+('New York City', 'United States', '-04'),
+('Tokyo', 'Japan', '+09');
 
 # Airport
-# INSERT Airport VALUES;
+INSERT Airport (ICAO, airportName, cityName) VALUES
+('EKCH', 'Copenhagen Airport, Kastrup', 'Copenhagen'),
+('EGLL', 'Heathrow Airport', 'London'),
+('KJFK', 'John F. Kennedy International Airport', 'New York City'),
+('RJAA', 'Narita International Airport', 'Tokyo');
 
 # Gate
-# INSERT Gate VALUES;
+INSERT Gate (gateID, ICAO) VALUES
+('D2', 'EKCH'), ('T3', 'EKCH'), ('A17', 'EKCH'),
+('T2', 'EGLL'), ('T5', 'EGLL'), ('T3', 'EGLL'),
+('12', 'KJFK'), ('B30', 'KJFK'), ('22', 'KJFK'),
+('171', 'RJAA'), ('E', 'RJAA'), ('150D', 'RJAA');
 
+# These have been left intentionally blank pending changes by Noah's PR
 # Ticket
 # INSERT Ticket VALUES;
-
 # Ticket Price
 # INSERT TicketPrice VALUES;
-
 # Nationality
 # INSERT Nationality VALUES;
 
 # Passenger
-# INSERT Passenger VALUES;
+INSERT Passenger (firstName, middleName, lastName, birthDate) VALUES
+('Daniel', 'Emil', 'Everland', '1997-04-13'),
+('Mark', 'Richard', 'Hamill', '1951-09-25'),
+('Gabe', 'Logan', 'Newell', '1962-11-03'),
+('Elizabeth', 'Alexandra', 'Mary', '1926-04-21');
 
 # Crew
-# INSERT Crew VALUES;
-
-# CrewFlight
-# INSERT CrewFlight VALUES;
-
-# Flight
-# INSERT Flight VALUES;
+INSERT Crew (firstName, middleName, lastName, birthDate, crewRole) VALUES
+('Leonardo', 'Wilhelm', 'DiCaprio', '1974-11-11', 'Purser'), 
+('Betty', 'Marion White', 'Ludden', '1922-01-17', 'Loadmaster'),
+('Robin', 'McLaurin', 'Williams', '1951-07-21', 'Flight Attendant'),
+('Sandra', 'Annette', 'Bullock', '1964-07-26', 'Purser');
 
 # Aircraft Model
-# INSERT AircraftModel VALUES;
+INSERT AircraftModel (modelName, manufacturer, seats, licenseDurationDays) VALUES
+('747', 'Boeing', 416, 365),
+('A330', 'Airbus', 293 , 548);
 
 # Aircraft Instance
-# INSERT AircraftInstance VALUES;
+INSERT AircraftInstance (aircraftReg, productionYear, modelName) VALUES
+('JA14KZ', 2013, '747'),
+('N405DX', 2019, 'A330');
 
-# License
-# INSERT License VALUES;
+# Flight
+INSERT Flight (arrivalDateTimeUTC, departureDateTimeUTC, aircraftReg, arrivalGateID,
+	departureGateID, arrivalGateAirport, departureGateAirport) VALUES
+('2038-01-19 03:14:07', '2038-01-18 03:14:07', 'JA14KZ', 'T2', '171', 'EGLL', 'RJAA'),
+('2021-01-19 03:14:07', '2021-01-18 03:14:07', 'N405DX', 'B30', 'E', 'KJFK', 'RJAA');
+
+# CrewFlight
+INSERT CrewFlight (crewID, flightID) VALUES
+(1, 1), (1, 2),
+(2, 1), (2, 2);
 
 # Pilot
-# INSERT Pilot VALUES;
+INSERT Pilot (firstName, middleName, lastName, birthDate) VALUES
+('Alan', 'Mathison', 'Turing', '1912-06-23'),
+('Stephen', 'William', 'Hawking', '1942-01-08');
 
 # Pilot Flight
-# INSERT PilotFlight VALUES;
+INSERT PilotFlight VALUES
+(1, 1), (1, 2),
+(2, 1), (2, 2);
+
+# License
+INSERT License (pilotID, modelName, dateOfAcquisition, lastRenewal) VALUES
+(1, '747', '1962-02-21', '2020-08-24'),
+(2, 'A330', '1982-10-02', '2022-01-24');
