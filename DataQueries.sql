@@ -4,7 +4,8 @@ USE airport;
 # Query 1: Find all passengers for a specific flight
 SELECT passengerID, firstName, lastName
 FROM Passenger NATURAL JOIN Ticket
-WHERE flightID = 1;
+WHERE flightID = 1
+ORDER BY firstName;
 
 # Query 2: Find the number of different meals on a specific flight
 SELECT Meal, COUNT(*) AS Meals
