@@ -33,20 +33,17 @@ INSERT Gate (gateID, ICAO) VALUES
 ('12', 'KJFK'), ('B30', 'KJFK'), ('22', 'KJFK'),
 ('171', 'RJAA'), ('E', 'RJAA'), ('150D', 'RJAA');
 
-# These have been left intentionally blank pending changes by Noah's PR
-# Ticket
-# INSERT Ticket VALUES;
-# Ticket Price
-# INSERT TicketPrice VALUES;
-# Nationality
-# INSERT Nationality VALUES;
 
 # Passenger
 INSERT Passenger (firstName, middleName, lastName, birthDate) VALUES
 ('Daniel', 'Emil', 'Everland', '1997-04-13'),
+('Thorbjørn', 'Thanner', 'Den Store', '1997-09-13'),
 ('Mark', 'Richard', 'Hamill', '1951-09-25'),
 ('Gabe', 'Logan', 'Newell', '1962-11-03'),
-('Elizabeth', 'Alexandra', 'Mary', '1926-04-21');
+('Elizabeth', 'Alexandra', 'Mary', '1926-04-21'),
+('X AE A-XII', NULL,'Musk', '2020-05-04'), 
+('Lewis', NULL, 'Hamilton', '1974-11-11');
+
 
 # Crew
 INSERT Crew (firstName, middleName, lastName, birthDate, crewRole) VALUES
@@ -54,6 +51,7 @@ INSERT Crew (firstName, middleName, lastName, birthDate, crewRole) VALUES
 ('Betty', 'Marion White', 'Ludden', '1922-01-17', 'Loadmaster'),
 ('Robin', 'McLaurin', 'Williams', '1951-07-21', 'Flight Attendant'),
 ('Sandra', 'Annette', 'Bullock', '1964-07-26', 'Purser');
+
 
 # Aircraft Model
 INSERT AircraftModel (modelName, manufacturer, seats, licenseDurationDays) VALUES
@@ -90,3 +88,19 @@ INSERT PilotFlight VALUES
 INSERT License (pilotID, modelName, dateOfAcquisition, lastRenewal) VALUES
 (1, '747', '1962-02-21', '2020-08-24'),
 (2, 'A330', '1982-10-02', '2022-01-24');
+
+
+# Ticket
+INSERT Ticket (flightID, passengerID, luggage, seatNo, meal) VALUES
+(1, 1, 20.00, '666', 'Vegan'),
+(2, 2, 44.21, '420', 'Chicken'),
+(1, 3, 00.00, '69', 'None');
+
+# Ticket Price
+INSERT TicketPrice (flightID, luggage, seatNo, meal, price) VALUES
+(1, 20.00, '666', 'Vegan', 6000.00),
+(2, 44.21, '420', 'Chicken', 243.30),
+(1, 00.00, '69', 'None', 00.00),
+
+(1, 42.00, '42', 'Chicken', 199.95),
+(1, 42.00, '43', 'None', 149.95);
