@@ -94,13 +94,13 @@ INSERT License (pilotID, modelName, dateOfAcquisition, lastRenewal) VALUES
 INSERT Ticket (flightID, passengerID, luggage, seatNo, meal) VALUES
 (1, 1, 20.00, '666', 'Vegan'),
 (2, 2, 44.21, '420', 'Chicken'),
-(1, 3, 00.00, '69', NULL);
+(1, 3, 00.00, '69', 'None');
 
 # Ticket Price
 INSERT TicketPrice (flightID, luggage, seatNo, meal, price) VALUES
 (1, 20.00, '666', 'Vegan', 6000.00),
 (2, 44.21, '420', 'Chicken', 243.30),
-(1, 00.00, '69', NULL, 00.00),
+(1, 00.00, '69', 'None', 00.00),
 
 (1, 42.00, '42', 'Chicken', 199.95),
-(1, 42.00, '43', NULL, 149.95);
+(1, 42.00, '43', 'None', 149.95);
