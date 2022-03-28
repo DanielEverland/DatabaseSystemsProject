@@ -11,6 +11,7 @@ INSERT TimeZone (timeZoneID, timeOffset) VALUES
 ('UTC', 0),
 ('+01', 1), ('+02', 2), ('+03', 3), ('+04', 4), ('+05', 5),
 ('+06', 6), ('+07', 7), ('+08', 8), ('+09', 9);
+SELECT * FROM TimeZone;
 
 # City
 INSERT City (cityName, country, timeZoneID) VALUES
@@ -18,6 +19,7 @@ INSERT City (cityName, country, timeZoneID) VALUES
 ('London', 'England', 'UTC'),
 ('New York City', 'United States', '-04'),
 ('Tokyo', 'Japan', '+09');
+SELECT * FROM City;
 
 # Airport
 INSERT Airport (ICAO, airportName, cityName) VALUES
@@ -25,6 +27,7 @@ INSERT Airport (ICAO, airportName, cityName) VALUES
 ('EGLL', 'Heathrow Airport', 'London'),
 ('KJFK', 'John F. Kennedy International Airport', 'New York City'),
 ('RJAA', 'Narita International Airport', 'Tokyo');
+SELECT * FROM Airport;
 
 # Gate
 INSERT Gate (gateID, ICAO) VALUES
@@ -32,7 +35,7 @@ INSERT Gate (gateID, ICAO) VALUES
 ('T2', 'EGLL'), ('T5', 'EGLL'), ('T3', 'EGLL'),
 ('12', 'KJFK'), ('B30', 'KJFK'), ('22', 'KJFK'),
 ('171', 'RJAA'), ('E', 'RJAA'), ('150D', 'RJAA');
-
+SELECT * FROM Gate;
 
 # Passenger
 INSERT Passenger (firstName, middleName, lastName, birthDate) VALUES
@@ -43,7 +46,7 @@ INSERT Passenger (firstName, middleName, lastName, birthDate) VALUES
 ('Elizabeth', 'Alexandra', 'Mary', '1926-04-21'),
 ('X AE A-XII', NULL,'Musk', '2020-05-04'), 
 ('Lewis', NULL, 'Hamilton', '1974-11-11');
-
+SELECT * FROM Passenger;
 
 # Crew
 INSERT Crew (firstName, middleName, lastName, birthDate, crewRole) VALUES
@@ -51,56 +54,63 @@ INSERT Crew (firstName, middleName, lastName, birthDate, crewRole) VALUES
 ('Betty', 'Marion White', 'Ludden', '1922-01-17', 'Loadmaster'),
 ('Robin', 'McLaurin', 'Williams', '1951-07-21', 'Flight Attendant'),
 ('Sandra', 'Annette', 'Bullock', '1964-07-26', 'Purser');
-
+SELECT * FROM Crew;
 
 # Aircraft Model
 INSERT AircraftModel (modelName, manufacturer, seats, licenseDurationDays) VALUES
 ('747', 'Boeing', 416, 365),
 ('A330', 'Airbus', 293 , 548);
+SELECT * FROM AircraftModel;
 
 # Aircraft Instance
 INSERT AircraftInstance (aircraftReg, productionYear, modelName) VALUES
 ('JA14KZ', 2013, '747'),
 ('N405DX', 2019, 'A330');
+SELECT * FROM AircraftInstance;
 
 # Flight
 INSERT Flight (arrivalDateTimeUTC, departureDateTimeUTC, aircraftReg, arrivalGateID,
 	departureGateID, arrivalGateAirport, departureGateAirport) VALUES
 ('2038-01-19 03:14:07', '2038-01-18 03:14:07', 'JA14KZ', 'T2', '171', 'EGLL', 'RJAA'),
 ('2021-01-19 03:14:07', '2021-01-18 03:14:07', 'N405DX', 'B30', 'E', 'KJFK', 'RJAA');
+SELECT * FROM Flight;
 
 # CrewFlight
 INSERT CrewFlight (crewID, flightID) VALUES
 (1, 1), (1, 2),
 (2, 1), (2, 2);
+SELECT * FROM CrewFlight;
 
 # Pilot
 INSERT Pilot (firstName, middleName, lastName, birthDate) VALUES
 ('Alan', 'Mathison', 'Turing', '1912-06-23'),
 ('Stephen', 'William', 'Hawking', '1942-01-08');
+SELECT * FROM Pilot;
 
 # Pilot Flight
 INSERT PilotFlight VALUES
 (1, 1), (1, 2),
 (2, 1), (2, 2);
+SELECT * FROM PilotFlight;
 
 # License
 INSERT License (pilotID, modelName, dateOfAcquisition, lastRenewal) VALUES
 (1, '747', '1962-02-21', '2020-08-24'),
 (2, 'A330', '1982-10-02', '2022-01-24');
-
+SELECT * FROM License;
 
 # Ticket
 INSERT Ticket (flightID, passengerID, luggage, seatNo, meal) VALUES
 (1, 1, 20.00, '666', 'Vegan'),
 (2, 2, 44.21, '420', 'Chicken'),
 (1, 3, 00.00, '69', 'None');
+SELECT * FROM Ticket;
 
 # Ticket Price
 INSERT TicketPrice (flightID, luggage, seatNo, meal, price) VALUES
 (1, 20.00, '666', 'Vegan', 6000.00),
 (2, 44.21, '420', 'Chicken', 243.30),
 (1, 00.00, '69', 'None', 00.00),
-
 (1, 42.00, '42', 'Chicken', 199.95),
 (1, 42.00, '43', 'None', 149.95);
+SELECT * FROM TicketPrice;
