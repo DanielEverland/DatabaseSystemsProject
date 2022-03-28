@@ -158,7 +158,7 @@ CREATE TABLE Ticket
     passengerID	INT,
     luggage		DECIMAL(4,2) NOT NULL,
     seatNo		VARCHAR(4) NOT NULL,
-    meal		ENUM('Beef', 'Chicken', 'Pork', 'Vegan', 'Vegetarian'),
+    meal		ENUM('None', 'Beef', 'Chicken', 'Pork', 'Vegan', 'Vegetarian'),
     PRIMARY KEY(flightID, passengerID),
     FOREIGN KEY(flightID) REFERENCES Flight(flightID) ON DELETE CASCADE,
     FOREIGN KEY(passengerID) REFERENCES Passenger(passengerID) ON DELETE CASCADE
