@@ -155,31 +155,12 @@ CREATE TABLE Passenger
 DROP TABLE IF EXISTS Ticket;
 CREATE TABLE Ticket
 	(flightID	INT,
+    seatNo		VARCHAR(4),
     passengerID	INT,
+    basePrice	DECIMAL(8,2) NOT NULL,
     luggage		DECIMAL(4,2) NOT NULL,
-    seatNo		VARCHAR(4) NOT NULL,
-    meal		ENUM('None', 'Beef', 'Chicken', 'Pork', 'Vegan', 'Vegetarian'),
-    PRIMARY KEY(flightID, passengerID),
+    meal		ENUM('Beef', 'Chicken', 'Pork', 'Vegan', 'Vegetarian'),
+    PRIMARY KEY(flightID, seatNo),
     FOREIGN KEY(flightID) REFERENCES Flight(flightID) ON DELETE CASCADE,
-    FOREIGN KEY(passengerID) REFERENCES Passenger(passengerID) ON DELETE CASCADE
-	);
-
-# FK constraints need an index, which must be manually created for non-PKs
-CREATE INDEX ix_luggage ON Ticket(luggage);
-CREATE INDEX ix_seatNo ON Ticket(seatNo);
-CREATE INDEX ix_meal ON Ticket(meal);
-    
-# Ticket Price
-DROP TABLE IF EXISTS TicketPrice;
-CREATE TABLE TicketPrice
-	(flightID	INT,
-    luggage 	DECIMAL(4,2) NOT NULL,
-    seatNo 		VARCHAR(4) NOT NULL,
-    meal		ENUM('None', 'Beef', 'Chicken', 'Pork', 'Vegan', 'Vegetarian'),
-    price 		DECIMAL(8,2) NOT NULL,
-    PRIMARY KEY(flightID, luggage, seatNo, meal),
-    FOREIGN KEY(flightID) REFERENCES Ticket(flightID) ON DELETE CASCADE,
-    FOREIGN KEY(luggage) REFERENCES Ticket(luggage) ON DELETE CASCADE,
-    FOREIGN KEY(seatNo) REFERENCES Ticket(seatNo) ON DELETE CASCADE,
-    FOREIGN KEY(meal) REFERENCES Ticket(meal) ON DELETE CASCADE
+    FOREIGN KEY(passengerID) REFERENCES Passenger(passengerID) ON DELETE SET NULL
 	);
