@@ -10,36 +10,25 @@ RETURN TIMESTAMPDIFF(YEAR, mDate, CURDATE());
 CREATE FUNCTION getFlightDuration(departureTime DATETIME, arrivalTime DATETIME) RETURNS INT
 RETURN TIMESTAMPDIFF(MINUTE, departureTime, arrivalTime);
 
-# flightID, what local time depature -> local time at arrival
-
 DROP FUNCTION IF EXISTS LocalArrivalTime;
+# Function for calculating the local time zone when a flight arrives at the destination airport.
 DELIMITER //
 CREATE FUNCTION LocalArrivalTime(mFlightID INT) RETURNS DATETIME
 BEGIN
 	DECLARE arrivalTimeUTC DATETIME;
-    DECLARE departureTimeUTC DATETIME;
     DECLARE arrivalAirportICAO VARCHAR(4);
-    DECLARE departureAirportICAO VARCHAR(4);
     DECLARE arrivalCity VARCHAR(85);
-    DECLARE departureCity VARCHAR(85);
     DECLARE arrivalTimeZone VARCHAR(4);
-    DECLARE departureTimeZome VARCHAR(4);
     
 	SELECT arrivalDateTimeUTC INTO arrivalTimeUTC FROM Flight WHERE Flight.flightID = mFlightID;
-	SELECT departureDateTimeUTC INTO departureTimeUTC FROM Flight WHERE Flight.flightID = mFlightID;
     SELECT arrivalGateAirport INTO arrivalAirportICAO FROM Flight WHERE Flight.flightID = mFlightID;
-    SELECT departureGateAirport INTO departureAirportICAO FROM Flight WHERE Flight.flightID = mFlightID;
 	SELECT cityName INTO arrivalCity FROM Airport WHERE Airport.ICAO = arrivalAirportICAO;
-    SELECT cityName INTO departureCity FROM Airport WHERE Airport.ICAO = departureAirportICAO;
 	SELECT timeZoneID INTO arrivalTimeZone FROM City WHERE City.cityName = arrivalCity;
-    SELECT timeZoneID INTO departureTimeZome FROM City WHERE City.cityName = departureCity;
     
-    RETURN 
-    
+    RETURN DATE_ADD(arrivalTimeUTC, INTERVAL arrivalTimeZone HOUR);
 END//
 DELIMITER ;
 
-SELECT LocalArrivalTime(1);
 # Procedures
 # INSERT new flight = new tickets with empty passengers
 
