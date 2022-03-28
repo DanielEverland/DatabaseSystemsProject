@@ -104,3 +104,4 @@ INSERT Ticket (flightID, seatNo, passengerID, basePrice, luggage, meal) VALUES
 (1, '666', 1, 6000.00, 20.00, 'Vegan'),
 (2, '420', 2, 243.30, 44.21, 'Chicken'),
 (1, '69', 3, 199.95, 00.00, NULL);
+SELECT * FROM Ticket;
