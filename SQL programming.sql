@@ -56,5 +56,33 @@ DELIMITER ;
 # SELECT * FROM Ticket;
 
 # Triggers
+# Check if a crew member is already scheduled for at flight at a given time
+DELIMITER //
+CREATE TRIGGER crewAlreadyBooked
+BEFORE INSERT ON CrewFlight FOR EACH ROW
+BEGIN
+	DECLARE newCrewArrival DATETIME;
+    DECLARE newCrewDeparture DATETIME;
+    DECLARE newCrewTimeDiff DATETIME;
+    DECLARE newCrewFlightArrival DATETIME;
+	DECLARE newCrewFlightDepature DATETIME;
+    DECLARE flightArrivals DATETIME;
+    DECLARE flightDepatures DATETIME;
+    
+    SELECT arrivalDateTimeUTC INTO newCrewFlightArrival FROM Flight WHERE flightID = NEW.flightID;
+    SELECT depatureDateTimeUTC INTO newCrewFlightDepature FROM Flight WHERE flightID = NEW.flightID;
+    
+    # all arrival date time for crewID
+    SELECT arrivalDateTimeUTC INTO flightArrivals FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE NEW.crewID = CrewFlight.crewID);
+    # all departure date time for crewID
+    SELECT depatureDateTimeUTC INTO flightDepatures FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE NEW.crewID = CrewFlight.crewID);
+    
+	# !!!!!! How to compare new crew flight arrival and departure to all flight arrival and departures for all existing flights for that crew member
+    IF ((newCrewFlightArrival BETWEEN flightArrivals AND flightDepatures) OR (newCrewFlightDepature BETWEEN flightArrivals AND flightDepatures)) 
+		THEN SIGNAL SQLSTATE 'HY000' SET MYSQL_ERRNO = 1525, MESSAGE_TEXT = 'crewmember is already booked'; 
+    END IF;
+    
+END//
+DELIMITER ;
 
 # Events
