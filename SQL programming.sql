@@ -57,39 +57,17 @@ DELIMITER ;
 # SELECT * FROM Ticket;
 
 # Triggers
-# Check if a crew member is already scheduled for at flight at a given time
 DELIMITER //
-CREATE TRIGGER crewAlreadyBooked
-BEFORE INSERT ON CrewFlight FOR EACH ROW
+CREATE TRIGGER ensure_valid_flight
+BEFORE INSERT ON Flight FOR EACH ROW
 BEGIN
-    DECLARE newCrewFlightArrival DATETIME;
-	DECLARE newCrewFlightDepature DATETIME;
-    DECLARE flightArrivals DATETIME;
-    DECLARE flightDepatures DATETIME;
-    
-    SELECT arrivalDateTimeUTC INTO newCrewFlightArrival FROM Flight WHERE flightID = NEW.flightID;
-    SELECT departureDateTimeUTC INTO newCrewFlightDepature FROM Flight WHERE flightID = NEW.flightID;
-    
-    # all arrival date time for crewID
-  #  SELECT arrivalDateTimeUTC INTO flightArrivals FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE NEW.crewID = CrewFlight.crewID);
-    # all departure date time for crewID
-  #  SELECT departureDateTimeUTC INTO flightDepatures FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE NEW.crewID = CrewFlight.crewID);
-    
-	IF (newCrewFlightArrival >= SOME ((SELECT departureDateTimeUTC FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE NEW.crewID = CrewFlight.crewID)))) 
-		AND (newCrewFlightDepature <= SOME (SELECT arrivalDateTimeUTC FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE NEW.crewID = CrewFlight.crewID))) 
-        THEN 
-		SIGNAL SQLSTATE 'HY000' SET MYSQL_ERRNO = 1525, MESSAGE_TEXT = 'crew member is already booked'; 
+	IF (NEW.arrivalDateTimeUTC <= NEW.departureDateTimeUTC) THEN SIGNAL SQLSTATE 'HY000'
+            SET MYSQL_ERRNO = 1525, MESSAGE_TEXT = 'Flight must arrive after departure';
 	END IF;
 END//
 DELIMITER ;
 
-SELECT departureDateTimeUTC FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE 1 = CrewFlight.crewID);
-
-SELECT arrivalDateTimeUTC, departureDateTimeUTC FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE 2 = CrewFlight.crewID);
-SELECT arrivalDateTimeUTC, departureDateTimeUTC FROM Flight WHERE Flight.flightID = 4;
-INSERT CrewFlight (crewID, flightID) VALUES(1,3);
-
-DROP TRIGGER crewAlreadyBooked;
-SET @test = ('2021-03-28 22:00:00' >= '2021-01-18 03:14:07') AND ('2021-03-28 12:00:00' <= '2038-01-19 03:14:07');
-SELECT @test
+INSERT Flight (arrivalDateTimeUTC, departureDateTimeUTC, aircraftReg, arrivalGateID,
+	departureGateID, arrivalGateAirport, departureGateAirport) 
+    VALUES('2021-01-19 02:00:00', '2021-01-19 03:00:00', 'N405DX', 'D2', '150D', 'EKCH', 'RJAA');
 # Events
