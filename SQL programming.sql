@@ -58,7 +58,7 @@ DELIMITER ;
 
 # Triggers
 DELIMITER //
-CREATE TRIGGER ensure_valid_flight
+CREATE TRIGGER ensure_valid_flight_time
 BEFORE INSERT ON Flight FOR EACH ROW
 BEGIN
 	IF (NEW.arrivalDateTimeUTC <= NEW.departureDateTimeUTC) THEN SIGNAL SQLSTATE 'HY000'
@@ -67,7 +67,9 @@ BEGIN
 END//
 DELIMITER ;
 
-INSERT Flight (arrivalDateTimeUTC, departureDateTimeUTC, aircraftReg, arrivalGateID,
-	departureGateID, arrivalGateAirport, departureGateAirport) 
-    VALUES('2021-01-19 02:00:00', '2021-01-19 03:00:00', 'N405DX', 'D2', '150D', 'EKCH', 'RJAA');
+# Test
+#INSERT Flight (arrivalDateTimeUTC, departureDateTimeUTC, aircraftReg, arrivalGateID,
+#	departureGateID, arrivalGateAirport, departureGateAirport) 
+#    VALUES('2021-01-19 03:00:00', '2021-01-19 03:00:00', 'N405DX', 'D2', '150D', 'EKCH', 'RJAA');
+
 # Events
