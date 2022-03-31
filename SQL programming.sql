@@ -62,28 +62,34 @@ DELIMITER //
 CREATE TRIGGER crewAlreadyBooked
 BEFORE INSERT ON CrewFlight FOR EACH ROW
 BEGIN
-	DECLARE newCrewArrival DATETIME;
-    DECLARE newCrewDeparture DATETIME;
-    DECLARE newCrewTimeDiff DATETIME;
     DECLARE newCrewFlightArrival DATETIME;
 	DECLARE newCrewFlightDepature DATETIME;
     DECLARE flightArrivals DATETIME;
     DECLARE flightDepatures DATETIME;
     
     SELECT arrivalDateTimeUTC INTO newCrewFlightArrival FROM Flight WHERE flightID = NEW.flightID;
-    SELECT depatureDateTimeUTC INTO newCrewFlightDepature FROM Flight WHERE flightID = NEW.flightID;
+    SELECT departureDateTimeUTC INTO newCrewFlightDepature FROM Flight WHERE flightID = NEW.flightID;
     
     # all arrival date time for crewID
-    SELECT arrivalDateTimeUTC INTO flightArrivals FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE NEW.crewID = CrewFlight.crewID);
+  #  SELECT arrivalDateTimeUTC INTO flightArrivals FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE NEW.crewID = CrewFlight.crewID);
     # all departure date time for crewID
-    SELECT depatureDateTimeUTC INTO flightDepatures FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE NEW.crewID = CrewFlight.crewID);
+  #  SELECT departureDateTimeUTC INTO flightDepatures FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE NEW.crewID = CrewFlight.crewID);
     
-	# !!!!!! How to compare new crew flight arrival and departure to all flight arrival and departures for all existing flights for that crew member
-    IF ((newCrewFlightArrival BETWEEN flightArrivals AND flightDepatures) OR (newCrewFlightDepature BETWEEN flightArrivals AND flightDepatures)) 
-		THEN SIGNAL SQLSTATE 'HY000' SET MYSQL_ERRNO = 1525, MESSAGE_TEXT = 'crewmember is already booked'; 
-    END IF;
-    
+	IF (newCrewFlightArrival >= SOME ((SELECT departureDateTimeUTC FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE NEW.crewID = CrewFlight.crewID)))) 
+		AND (newCrewFlightDepature <= SOME (SELECT arrivalDateTimeUTC FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE NEW.crewID = CrewFlight.crewID))) 
+        THEN 
+		SIGNAL SQLSTATE 'HY000' SET MYSQL_ERRNO = 1525, MESSAGE_TEXT = 'crew member is already booked'; 
+	END IF;
 END//
 DELIMITER ;
 
+SELECT departureDateTimeUTC FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE 1 = CrewFlight.crewID);
+
+SELECT arrivalDateTimeUTC, departureDateTimeUTC FROM Flight WHERE flightID IN (SELECT flightID FROM CrewFlight WHERE 2 = CrewFlight.crewID);
+SELECT arrivalDateTimeUTC, departureDateTimeUTC FROM Flight WHERE Flight.flightID = 4;
+INSERT CrewFlight (crewID, flightID) VALUES(1,3);
+
+DROP TRIGGER crewAlreadyBooked;
+SET @test = ('2021-03-28 22:00:00' >= '2021-01-18 03:14:07') AND ('2021-03-28 12:00:00' <= '2038-01-19 03:14:07');
+SELECT @test
 # Events
