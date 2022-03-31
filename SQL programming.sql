@@ -4,6 +4,7 @@
 
 
 # Age function - Calculate the age of a person given their birth date (returns difference in years between current date and input date)
+DROP FUNCTION IF EXISTS Age;
 CREATE FUNCTION Age(mDate DATE) RETURNS INTEGER
 RETURN TIMESTAMPDIFF(YEAR, mDate, CURDATE());
 
