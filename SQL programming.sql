@@ -57,7 +57,7 @@ DELIMITER ;
 
 # Triggers
 # Check if a crew member is already scheduled for at flight at a given time
-DROP TRIGGER IF EXISTS crewAlreadyBooked;
+DROP TRIGGER IF EXISTS ensure_valid_flight_time;
 DELIMITER //
 CREATE TRIGGER ensure_valid_flight_time
 BEFORE INSERT ON Flight FOR EACH ROW
