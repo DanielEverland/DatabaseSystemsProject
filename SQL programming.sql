@@ -97,7 +97,7 @@ INTERVAL 	(SELECT timeOffset FROM TimeZone WHERE timeZoneID IN
 			(SELECT cityName FROM Airport WHERE Flight.departureGateAirport = Airport.ICAO) ) ) HOUR)
     AS LocalDepartureTime,
 LocalArrivalTime(flightID) AS LocalArrivalTime,
-(SELECT cityName FROM Airport WHERE Flight.departureGateAirport = Airport.ICAO) AS DepartureCity,
-(SELECT cityName FROM Airport WHERE Flight.arrivalGateAirport = Airport.ICAO) AS ArrivalCity
+(SELECT airportName FROM Airport WHERE Flight.departureGateAirport = Airport.ICAO) AS DepartureAirport,
+(SELECT airportName FROM Airport WHERE Flight.arrivalGateAirport = Airport.ICAO) AS ArrivalAirport
 FROM Flight ORDER BY Flight;
 SELECT * FROM AllFlights;
