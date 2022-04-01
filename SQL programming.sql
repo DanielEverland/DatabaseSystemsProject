@@ -84,3 +84,20 @@ DROP EVENT IF EXISTS RemoveUnsoldTickets;
 CREATE EVENT RemoveUnsoldTickets
 ON SCHEDULE EVERY 1 DAY
 DO DELETE FROM Ticket WHERE passengerID IS NULL AND flightID IN (SELECT flightID FROM Flight WHERE departureDateTimeUTC < NOW());
+
+SELECT timeOffset FROM TimeZone WHERE timeZoneID IN (SELECT timeZoneID FROM City WHERE cityName IN (SELECT cityName FROM Airport WHERE 'EKCH' = Airport.ICAO));
+
+# Views
+DROP VIEW IF EXISTS AllFlights;
+CREATE VIEW AllFlights AS
+SELECT flightID AS Flight,
+DATE_ADD(Flight.departureDateTimeUTC,
+INTERVAL 	(SELECT timeOffset FROM TimeZone WHERE timeZoneID IN
+			(SELECT timeZoneID FROM City WHERE cityName IN
+			(SELECT cityName FROM Airport WHERE Flight.departureGateAirport = Airport.ICAO) ) ) HOUR)
+    AS LocalDepartureTime,
+LocalArrivalTime(flightID) AS LocalArrivalTime,
+(SELECT airportName FROM Airport WHERE Flight.departureGateAirport = Airport.ICAO) AS DepartureAirport,
+(SELECT airportName FROM Airport WHERE Flight.arrivalGateAirport = Airport.ICAO) AS ArrivalAirport
+FROM Flight ORDER BY Flight;
+SELECT * FROM AllFlights;
