@@ -18,15 +18,19 @@ BEGIN
     DECLARE arrivalAirportICAO VARCHAR(4);
     DECLARE arrivalCity VARCHAR(85);
     DECLARE arrivalTimeZone VARCHAR(4);
+    DECLARE timeZoneOffset DECIMAL(2,0);
     
 	SELECT arrivalDateTimeUTC INTO arrivalTimeUTC FROM Flight WHERE Flight.flightID = mFlightID;
     SELECT arrivalGateAirport INTO arrivalAirportICAO FROM Flight WHERE Flight.flightID = mFlightID;
 	SELECT cityName INTO arrivalCity FROM Airport WHERE Airport.ICAO = arrivalAirportICAO;
 	SELECT timeZoneID INTO arrivalTimeZone FROM City WHERE City.cityName = arrivalCity;
+    SELECT timeOffset INTO timeZoneOffset FROM TimeZone WHERE TimeZone.timeZoneID = arrivalTimeZone;
     
-    RETURN DATE_ADD(arrivalTimeUTC, INTERVAL arrivalTimeZone HOUR);
+    RETURN DATE_ADD(arrivalTimeUTC, INTERVAL timeZoneOffset HOUR);
 END//
 DELIMITER ;
+
+#SELECT LocalArrivalTime(1);
 
 # Procedures
 DROP PROCEDURE IF EXISTS AddFlight;
