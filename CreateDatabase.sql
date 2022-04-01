@@ -50,7 +50,7 @@ CREATE TABLE Gate
 DROP TABLE IF EXISTS AircraftModel;
 CREATE TABLE AircraftModel
 	(modelName			VARCHAR(50),
-    manufacturer		VARCHAR(50),
+    manufacturer		VARCHAR(50) NOT NULL,
     seats				INT NOT NULL,
     licenseDurationDays	INT NOT NULL,
     PRIMARY KEY(modelName)
