@@ -8,6 +8,7 @@ DROP FUNCTION IF EXISTS Age;
 CREATE FUNCTION Age(mDate DATE) RETURNS INTEGER
 RETURN TIMESTAMPDIFF(YEAR, mDate, CURDATE());
 
+DROP FUNCTION IF EXISTS getFlightDuration;
 CREATE FUNCTION getFlightDuration(departureTime DATETIME, arrivalTime DATETIME) RETURNS INT
 RETURN TIMESTAMPDIFF(MINUTE, departureTime, arrivalTime);
 
@@ -31,6 +32,7 @@ END//
 DELIMITER ;
 
 # Procedures
+DROP PROCEDURE IF EXISTS AddFlight;
 DELIMITER //
 CREATE PROCEDURE AddFlight (IN inAircraftReg VARCHAR(8), IN inArrivalDateTimeUTC DATETIME, IN inDepartureDateTimeUTC DATETIME,
 IN inArrivalGateID VARCHAR(5), IN inArrivalGateAirport VARCHAR(5), IN inDepartureGateID VARCHAR(5), IN inDepartureGateAirport VARCHAR(5))
@@ -58,6 +60,7 @@ DELIMITER ;
 
 # Triggers
 # Check if a crew member is already scheduled for at flight at a given time
+DROP TRIGGER IF EXISTS crewAlreadyBooked;
 DELIMITER //
 CREATE TRIGGER crewAlreadyBooked
 BEFORE INSERT ON CrewFlight FOR EACH ROW
@@ -87,3 +90,9 @@ END//
 DELIMITER ;
 
 # Events
+SET GLOBAL event_scheduler = 1;
+# Removes all unsold tickets from flights that have started
+DROP EVENT IF EXISTS RemoveUnsoldTickets;
+CREATE EVENT RemoveUnsoldTickets
+ON SCHEDULE EVERY 1 DAY
+DO DELETE FROM Ticket WHERE passengerID IS NULL AND flightID IN (SELECT flightID FROM Flight WHERE departureDateTimeUTC < NOW());
