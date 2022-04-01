@@ -72,7 +72,10 @@ SELECT * FROM AircraftInstance;
 INSERT Flight (arrivalDateTimeUTC, departureDateTimeUTC, aircraftReg, arrivalGateID,
 	departureGateID, arrivalGateAirport, departureGateAirport) VALUES
 ('2038-01-19 03:14:07', '2038-01-18 03:14:07', 'JA14KZ', 'T2', '171', 'EGLL', 'RJAA'),
-('2021-01-19 03:14:07', '2021-01-18 03:14:07', 'N405DX', 'B30', 'E', 'KJFK', 'RJAA');
+('2021-01-19 03:14:07', '2021-01-18 03:14:07', 'N405DX', 'B30', 'E', 'KJFK', 'RJAA'),
+('2021-03-28 22:00:00', '2021-03-28 12:00:00', 'N405DX', '150D', 'D2', 'RJAA', 'EKCH'),
+('2021-03-28 22:00:00', '2021-03-28 12:00:00', 'N405DX', 'D2', '150D', 'EKCH', 'RJAA'),
+('2021-01-19 04:00:00', '2021-01-19 03:00:00', 'N405DX', 'D2', '150D', 'EKCH', 'RJAA');
 SELECT * FROM Flight;
 
 # CrewFlight
